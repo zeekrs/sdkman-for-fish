@@ -9,54 +9,55 @@
 Makes command `sdk` from [SDKMAN!] usable from [fish], including auto-completion.
 Also adds binaries from installed SDKs to the PATH.
 
-Version 2.0.0 has been tested with 
+Version 2.1.0 has been tested with 
 
- - fish 3.6.1, and 
- - SDKMAN! 5.18.2, on
- - Ubuntu 22.04 LTS and macOS 12.6
+ - fish 3.7 and 
+ - SDKMAN! 5.18.2 on
+ - Ubuntu 22.04 LTS and macOS 14.4
 
 ## Install
 
 With [fisher] (install separately):
 
 ```
-fisher install reitzig/sdkman-for-fish@v2.0.0
+fisher install reitzig/sdkman-for-fish@v2.1.0
 ```
 
 _Note:_ 
 
  - Only compatible with fisher v4 upwards; v3 is no longer supported.
  - You have to install [SDKMAN!] separately.
- - If you have installed SDKMAN! at a custom location, you need to add
-   ```fish
-   set -g __sdkman_custom_dir /your/path/to/sdkman
-   ```
-   to a fish config file
-     [run _before_](https://fishshell.com/docs/current/language.html#configuration-files)
-   `.config/fish/conf.d/sdk.fish`;
-   for example, you can use `.config/fish/conf.d/config_sdk.fish`.
-
+ - If you have installed SDKMAN! at a custom location, you need to either
+   - set environment variable `SDKMAN_DIR` to that path using your preferred method, or 
+   - add
+     ```fish
+     set -g __sdkman_custom_dir /your/path/to/sdkman
+     ```
+     to a fish config file
+       [run _before_](https://fishshell.com/docs/current/language.html#configuration-files)
+     `.config/fish/conf.d/sdk.fish`;
+     for example, you can use `.config/fish/conf.d/config_sdk.fish`.
+   - If _both_ are set, `__sdkman_custom_dir` is used.
 
 ## Usage
 
-It's all in the background; you should be able to run `sdk` and binaries installed
-with `sdk` as you would expect.
-
+It's all in the background; you should be able to run `sdk` and
+binaries installed with `sdk` as you would expect.
 
 ## Contribute
 
-When you make changes, 
+When you propose changes, 
 please run the tests at least on one platform before creating a pull request.
 
-As the tests may mess up your own setup
+As the tests may mess up your machine
 -- you have been warned! -- 
-the recommended way is to run the tests in a Docker container:
- 
+the recommended way is to run them in a Docker container:
+
 ```fish
 docker build -t sdkman-for-fish-tests -f test/Dockerfile .
 docker run --rm -it sdkman-for-fish-tests
 ```
-   
+
 A run configuration for Jetbrains IDEs is included.
 
 It is a also possible to run individual features, for instance:
@@ -64,17 +65,6 @@ It is a also possible to run individual features, for instance:
 ```fish
 docker run --rm sdkman-for-fish-tests features/completions.feature
 ```
-
-As a corollary, this is the fastest way to run all tests 
-(if you do not care about the report):
-
-```fish
-for f in features/*.feature
-  docker run --rm sdkman-for-fish-tests "$f" &
-done
-wait
-```
-
 
 ## Acknowledgements
 
